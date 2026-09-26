@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Hello World</title>
+  <style>
+    :root {
+      color-scheme: light;
+      font-family: ui-rounded, "SF Pro Rounded", "Segoe UI", sans-serif;
+      color: #1f2933;
+      background: #f7f8fa;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      min-height: 100vh;
+      margin: 0;
+      display: grid;
+      place-items: center;
+      background-color: #f7f8fa;
+      transition: background-color 350ms ease;
+    }
+
+    main {
+      padding: 2rem;
+      text-align: center;
+    }
+
+    h1 {
+      margin: 0 0 1.75rem;
+      font-size: clamp(3rem, 10vw, 6rem);
+      font-weight: 750;
+      line-height: 1;
+      letter-spacing: 0;
+    }
+
+    button {
+      min-height: 3rem;
+      padding: 0.75rem 1.25rem;
+      border: 0;
+      border-radius: 0.5rem;
+      background: #1f2933;
+      color: #fff;
+      font: inherit;
+      font-size: 1rem;
+      font-weight: 650;
+      cursor: pointer;
+      transition: transform 150ms ease, background-color 150ms ease;
+    }
+
+    button:hover {
+      background: #344454;
+      transform: translateY(-2px);
+    }
+
+    button:focus-visible {
+      outline: 3px solid #fff;
+      outline-offset: 3px;
+      box-shadow: 0 0 0 6px #1f2933;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        scroll-behavior: auto !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Hello World</h1>
+    <button id="color-button" type="button">Change background</button>
+  </main>
+
+  <script>
+    const colorButton = document.querySelector("#color-button");
+
+    colorButton.addEventListener("click", () => {
+      const hue = Math.floor(Math.random() * 360);
+      document.body.style.backgroundColor = `hsl(${hue} 68% 82%)`;
+    });
+  </script>
+</body>
+</html>
