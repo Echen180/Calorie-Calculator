@@ -1587,6 +1587,10 @@
       updateProfileName(savedProfileName);
     }
 
+    profileSetupGoalWeightInput.addEventListener("input", () => {
+      profileSetupGoalWeightInput.setCustomValidity("");
+    });
+
     profileSetupForm.addEventListener("submit", (event) => {
       event.preventDefault();
       profileSetupNameInput.setCustomValidity("");
