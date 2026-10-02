@@ -605,6 +605,45 @@
       font-size: 11px;
     }
 
+    .profile-setup {
+      position: fixed;
+      z-index: 20;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      overflow-y: auto;
+      padding: 24px;
+      background-color: #f3f5f0;
+      background-image: radial-gradient(#dce2d9 0.7px, transparent 0.7px);
+      background-size: 18px 18px;
+    }
+
+    .profile-setup-panel {
+      width: min(460px, 100%);
+      padding: 30px;
+      border: 1px solid rgba(32, 43, 37, 0.08);
+      border-radius: 8px;
+      background: var(--paper);
+      box-shadow: 0 12px 40px rgba(24, 40, 29, 0.08);
+    }
+
+    .profile-setup-panel h1 {
+      margin: 0 0 10px;
+      font-size: 28px;
+    }
+
+    .profile-setup-copy {
+      margin: 0 0 22px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    .profile-setup-form {
+      display: grid;
+      gap: 14px;
+    }
+
     .long-term-form {
       display: grid;
       grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -1413,6 +1452,21 @@
     </section>
   </main>
 
+  <section class="profile-setup" id="profile-setup" role="dialog" aria-modal="true" aria-labelledby="profile-setup-heading" aria-describedby="profile-setup-copy" hidden>
+    <div class="profile-setup-panel">
+      <p class="eyebrow">WELCOME TO STRIDE</p>
+      <h1 id="profile-setup-heading">First, let’s set up your profile.</h1>
+      <p class="profile-setup-copy" id="profile-setup-copy">Enter your name to start using your activity and goal tracker.</p>
+      <form class="profile-setup-form" id="profile-setup-form">
+        <label class="field" for="profile-setup-name">Full name
+          <input id="profile-setup-name" name="name" type="text" autocomplete="name" maxlength="100" placeholder="Enter your name" required>
+        </label>
+        <button class="form-submit" type="submit">Save name and continue</button>
+        <p class="profile-save-status" id="profile-setup-status" aria-live="polite"></p>
+      </form>
+    </div>
+  </section>
+
   <script>
     const menuToggle = document.querySelector("#menu-toggle");
     const menuClose = document.querySelector("#menu-close");
@@ -1423,6 +1477,10 @@
     const mealsView = document.querySelector("#meals");
     const longTermView = document.querySelector("#long-term-goal");
     const profileView = document.querySelector("#profile");
+    const profileSetup = document.querySelector("#profile-setup");
+    const profileSetupForm = document.querySelector("#profile-setup-form");
+    const profileSetupNameInput = document.querySelector("#profile-setup-name");
+    const profileSetupStatus = document.querySelector("#profile-setup-status");
 
     function setWorkspaceView(view) {
       const showMeals = view === "meals";
@@ -1500,10 +1558,44 @@
     }
 
     const savedProfileName = localStorage.getItem("stride-profile-name")?.trim() ?? "";
+    const profileNameIsMissing = !savedProfileName;
+    profileSetup.hidden = !profileNameIsMissing;
+    if (profileNameIsMissing) {
+      document.querySelector(".topbar").inert = true;
+      drawer.inert = true;
+      document.querySelector("#drawer-backdrop").inert = true;
+      document.querySelector("#overview").inert = true;
+      profileSetupNameInput.focus();
+    }
+
     if (savedProfileName) {
       profileNameInput.value = savedProfileName;
       updateProfileName(savedProfileName);
     }
+
+    profileSetupForm.addEventListener("submit", (event) => {
+      event.preventDefault();
+      profileSetupNameInput.setCustomValidity("");
+      if (!profileSetupForm.reportValidity()) return;
+
+      const name = profileSetupNameInput.value.trim();
+      if (!name) {
+        profileSetupNameInput.setCustomValidity("Enter your name to start using the app.");
+        profileSetupNameInput.reportValidity();
+        return;
+      }
+
+      localStorage.setItem("stride-profile-name", name);
+      profileNameInput.value = name;
+      updateProfileName(name);
+      profileSetup.hidden = true;
+      document.querySelector(".topbar").inert = false;
+      drawer.inert = true;
+      document.querySelector("#drawer-backdrop").inert = false;
+      document.querySelector("#overview").inert = false;
+      profileSetupStatus.textContent = "";
+      menuToggle.focus();
+    });
 
     profileForm.addEventListener("submit", (event) => {
       event.preventDefault();
