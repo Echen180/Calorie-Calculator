@@ -3,13 +3,24 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Hello World</title>
+  <meta name="theme-color" content="#f3f5f0">
+  <title>Stride | Activity</title>
   <style>
     :root {
       color-scheme: light;
-      font-family: ui-rounded, "SF Pro Rounded", "Segoe UI", sans-serif;
-      color: #1f2933;
-      background: #f7f8fa;
+      font-family: "Avenir Next", "Segoe UI", sans-serif;
+      color: #202b25;
+      background: #f3f5f0;
+      font-synthesis: none;
+      text-rendering: optimizeLegibility;
+      -webkit-font-smoothing: antialiased;
+      --ink: #202b25;
+      --muted: #78827b;
+      --line: #e5e9e2;
+      --paper: #fff;
+      --green: #174c39;
+      --lime: #d7f475;
+      --coral: #e17d5b;
     }
 
     * {
@@ -17,50 +28,656 @@
     }
 
     body {
+      min-width: 320px;
       min-height: 100vh;
       margin: 0;
-      display: grid;
-      place-items: center;
-      background-color: #f7f8fa;
-      transition: background-color 350ms ease;
+      background-color: #f3f5f0;
+      background-image: radial-gradient(#dce2d9 0.7px, transparent 0.7px);
+      background-size: 18px 18px;
     }
 
-    main {
-      padding: 2rem;
-      text-align: center;
-    }
-
-    h1 {
-      margin: 0 0 1.75rem;
-      font-size: clamp(3rem, 10vw, 6rem);
-      font-weight: 750;
-      line-height: 1;
-      letter-spacing: 0;
+    button,
+    input,
+    select {
+      font: inherit;
     }
 
     button {
-      min-height: 3rem;
-      padding: 0.75rem 1.25rem;
-      border: 0;
-      border-radius: 0.5rem;
-      background: #1f2933;
-      color: #fff;
-      font: inherit;
-      font-size: 1rem;
-      font-weight: 650;
+      color: inherit;
+    }
+
+    .topbar {
+      position: sticky;
+      z-index: 5;
+      top: 0;
+      display: flex;
+      align-items: center;
+      height: 72px;
+      padding: 0 max(24px, calc((100vw - 1160px) / 2));
+      border-bottom: 1px solid rgba(32, 43, 37, 0.08);
+      background: rgba(255, 255, 255, 0.94);
+      backdrop-filter: blur(12px);
+    }
+
+    .menu-toggle,
+    .icon-button {
+      display: grid;
+      width: 42px;
+      height: 42px;
+      place-items: center;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
       cursor: pointer;
-      transition: transform 150ms ease, background-color 150ms ease;
     }
 
-    button:hover {
-      background: #344454;
-      transform: translateY(-2px);
+    .menu-toggle:hover,
+    .icon-button:hover {
+      background: #f1f5ee;
     }
 
-    button:focus-visible {
-      outline: 3px solid #fff;
+    .hamburger {
+      display: grid;
+      gap: 5px;
+      width: 17px;
+    }
+
+    .hamburger span {
+      height: 2px;
+      border-radius: 2px;
+      background: var(--ink);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-left: 16px;
+      color: var(--ink);
+      font-size: 15px;
+      font-weight: 800;
+      letter-spacing: 0;
+      text-decoration: none;
+    }
+
+    .brand-mark {
+      display: grid;
+      width: 29px;
+      height: 29px;
+      place-items: center;
+      border-radius: 8px 8px 8px 2px;
+      background: var(--lime);
+      color: var(--green);
+      font-size: 17px;
+      font-weight: 900;
+    }
+
+    .topbar-spacer {
+      flex: 1;
+    }
+
+    .top-date {
+      margin-right: 16px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .avatar {
+      display: grid;
+      width: 36px;
+      height: 36px;
+      place-items: center;
+      border-radius: 50%;
+      background: #f2d3bf;
+      color: #573f32;
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .drawer-backdrop {
+      position: fixed;
+      z-index: 9;
+      inset: 0;
+      border: 0;
+      background: rgba(22, 31, 26, 0.38);
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 220ms ease, visibility 220ms ease;
+    }
+
+    .drawer {
+      position: fixed;
+      z-index: 10;
+      inset: 0 auto 0 0;
+      display: flex;
+      width: min(320px, 86vw);
+      flex-direction: column;
+      padding: 24px;
+      background: var(--paper);
+      box-shadow: 14px 0 40px rgba(18, 36, 25, 0.12);
+      transform: translateX(-105%);
+      transition: transform 240ms cubic-bezier(0.2, 0.75, 0.25, 1);
+    }
+
+    body.menu-open .drawer {
+      transform: translateX(0);
+    }
+
+    body.menu-open .drawer-backdrop {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .drawer-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-bottom: 28px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .drawer .brand {
+      margin: 0;
+    }
+
+    .drawer-label {
+      margin: 28px 0 10px;
+      color: #929b94;
+      font-size: 10px;
+      font-weight: 800;
+      text-transform: uppercase;
+    }
+
+    .drawer-nav {
+      display: grid;
+      gap: 5px;
+    }
+
+    .drawer-nav a {
+      display: flex;
+      align-items: center;
+      min-height: 46px;
+      padding: 0 12px;
+      border-radius: 7px;
+      color: #59645d;
+      font-size: 14px;
+      font-weight: 650;
+      text-decoration: none;
+    }
+
+    .drawer-nav a:hover,
+    .drawer-nav a[aria-current="page"] {
+      background: #eef4e9;
+      color: var(--green);
+    }
+
+    .drawer-footer {
+      margin-top: auto;
+      padding: 16px 12px 0;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.6;
+    }
+
+    main {
+      width: min(1160px, calc(100% - 48px));
+      margin: 0 auto;
+      padding: 42px 0 64px;
+    }
+
+    .page-heading {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 20px;
+      margin-bottom: 27px;
+    }
+
+    .eyebrow {
+      margin: 0 0 8px;
+      color: #708078;
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+    }
+
+    h1,
+    h2,
+    p {
+      margin-top: 0;
+    }
+
+    h1 {
+      margin-bottom: 0;
+      font-size: 34px;
+      font-weight: 700;
+      line-height: 1.15;
+      letter-spacing: 0;
+    }
+
+    .heading-note {
+      margin: 0 0 3px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .overview-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.12fr) minmax(330px, 0.88fr);
+      gap: 18px;
+    }
+
+    .burn-card {
+      position: relative;
+      display: flex;
+      min-height: 270px;
+      align-items: center;
+      justify-content: space-between;
+      overflow: hidden;
+      padding: 32px 36px;
+      border-radius: 8px;
+      background: var(--green);
+      color: #fff;
+    }
+
+    .burn-card::after {
+      position: absolute;
+      right: 34%;
+      bottom: -130px;
+      width: 300px;
+      height: 300px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 50%;
+      content: "";
+      pointer-events: none;
+    }
+
+    .burn-copy {
+      position: relative;
+      z-index: 1;
+    }
+
+    .burn-label {
+      margin: 0 0 20px;
+      color: #c4d7cc;
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .burn-total {
+      margin: 0;
+      font-size: 54px;
+      font-weight: 700;
+      line-height: 1;
+    }
+
+    .burn-total span {
+      margin-left: 5px;
+      color: #d8e4dc;
+      font-size: 15px;
+      font-weight: 600;
+    }
+
+    .burn-caption {
+      margin: 12px 0 24px;
+      color: #c4d7cc;
+      font-size: 13px;
+    }
+
+    .goal-track {
+      width: min(260px, 38vw);
+      height: 6px;
+      overflow: hidden;
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.18);
+    }
+
+    .goal-fill {
+      width: 72%;
+      height: 100%;
+      border-radius: inherit;
+      background: var(--lime);
+      transition: width 250ms ease;
+    }
+
+    .goal-caption {
+      margin: 9px 0 0;
+      color: #d6e1d9;
+      font-size: 11px;
+    }
+
+    .goal-ring {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      width: 142px;
+      aspect-ratio: 1;
+      flex: 0 0 auto;
+      place-items: center;
+      border-radius: 50%;
+      background: conic-gradient(var(--lime) 0 72%, rgba(255, 255, 255, 0.17) 72% 100%);
+    }
+
+    .goal-ring::before {
+      position: absolute;
+      inset: 9px;
+      border-radius: 50%;
+      background: var(--green);
+      content: "";
+    }
+
+    .ring-copy {
+      position: relative;
+      display: grid;
+      gap: 3px;
+      text-align: center;
+    }
+
+    .ring-copy strong {
+      font-size: 27px;
+      line-height: 1;
+    }
+
+    .ring-copy span {
+      color: #c4d7cc;
+      font-size: 10px;
+      text-transform: uppercase;
+    }
+
+    .week-card,
+    .panel {
+      border: 1px solid rgba(32, 43, 37, 0.07);
+      border-radius: 8px;
+      background: var(--paper);
+      box-shadow: 0 4px 18px rgba(24, 40, 29, 0.025);
+    }
+
+    .week-card {
+      min-height: 270px;
+      padding: 24px 25px 19px;
+    }
+
+    .section-heading {
+      display: flex;
+      align-items: start;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    h2 {
+      margin-bottom: 4px;
+      font-size: 15px;
+      font-weight: 750;
+      letter-spacing: 0;
+    }
+
+    .section-subtitle {
+      margin: 0;
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    .week-total {
+      color: var(--green);
+      font-size: 17px;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .week-total small {
+      color: var(--muted);
+      font-size: 10px;
+      font-weight: 600;
+    }
+
+    .chart {
+      display: flex;
+      height: 151px;
+      align-items: end;
+      justify-content: space-between;
+      gap: 13px;
+      margin-top: 14px;
+      padding: 0 6px;
+      border-bottom: 1px solid var(--line);
+      background: repeating-linear-gradient(to bottom, transparent 0, transparent 36px, #edf0eb 37px, transparent 38px);
+    }
+
+    .chart-day {
+      display: flex;
+      height: 100%;
+      flex: 1;
+      flex-direction: column;
+      align-items: center;
+      justify-content: end;
+      gap: 8px;
+      color: #8b948e;
+      font-size: 10px;
+    }
+
+    .chart-bar {
+      width: min(25px, 100%);
+      min-height: 5px;
+      border-radius: 4px 4px 0 0;
+      background: #dce7d8;
+    }
+
+    .chart-day.today .chart-bar {
+      background: var(--coral);
+    }
+
+    .chart-day.today {
+      color: var(--ink);
+      font-weight: 800;
+    }
+
+    .content-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.12fr) minmax(320px, 0.88fr);
+      gap: 18px;
+      margin-top: 18px;
+    }
+
+    .panel {
+      padding: 23px 25px;
+    }
+
+    .activity-list {
+      display: grid;
+      margin: 17px 0 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .activity-item {
+      display: grid;
+      grid-template-columns: 40px minmax(0, 1fr) auto;
+      align-items: center;
+      gap: 12px;
+      min-height: 65px;
+      border-top: 1px solid #edf0eb;
+    }
+
+    .activity-mark {
+      display: grid;
+      width: 38px;
+      height: 38px;
+      place-items: center;
+      border-radius: 8px;
+      background: #f1f5ee;
+      color: var(--green);
+      font-size: 11px;
+      font-weight: 900;
+    }
+
+    .activity-name {
+      margin: 0 0 4px;
+      font-size: 12px;
+      font-weight: 750;
+    }
+
+    .activity-meta {
+      margin: 0;
+      color: var(--muted);
+      font-size: 10px;
+    }
+
+    .activity-calories {
+      color: var(--green);
+      font-size: 12px;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .add-form {
+      display: grid;
+      gap: 14px;
+      margin-top: 18px;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .field {
+      display: grid;
+      gap: 6px;
+      color: #657169;
+      font-size: 10px;
+      font-weight: 750;
+    }
+
+    .field select,
+    .field input {
+      width: 100%;
+      min-height: 42px;
+      padding: 0 11px;
+      border: 1px solid #dfe5dc;
+      border-radius: 6px;
+      outline: none;
+      background: #fff;
+      color: var(--ink);
+      font-size: 12px;
+    }
+
+    .field select:focus,
+    .field input:focus {
+      border-color: #56836a;
+      box-shadow: 0 0 0 3px rgba(86, 131, 106, 0.15);
+    }
+
+    .form-submit {
+      display: flex;
+      min-height: 44px;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      border: 0;
+      border-radius: 6px;
+      background: var(--lime);
+      color: #243323;
+      font-size: 12px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .form-submit:hover {
+      background: #c8e960;
+    }
+
+    .estimate-note {
+      margin: -4px 0 0;
+      color: #929b94;
+      font-size: 10px;
+      line-height: 1.5;
+    }
+
+    :focus-visible {
+      outline: 3px solid #56836a;
       outline-offset: 3px;
-      box-shadow: 0 0 0 6px #1f2933;
+    }
+
+    @media (max-width: 760px) {
+      .topbar {
+        height: 64px;
+        padding: 0 16px;
+      }
+
+      .top-date {
+        display: none;
+      }
+
+      main {
+        width: min(100% - 32px, 540px);
+        padding-top: 30px;
+      }
+
+      .page-heading {
+        align-items: start;
+        flex-direction: column;
+        gap: 8px;
+        margin-bottom: 20px;
+      }
+
+      h1 {
+        font-size: 29px;
+      }
+
+      .overview-grid,
+      .content-grid {
+        grid-template-columns: 1fr;
+        gap: 14px;
+      }
+
+      .burn-card {
+        min-height: 240px;
+        padding: 25px 22px;
+      }
+
+      .burn-total {
+        font-size: 46px;
+      }
+
+      .goal-ring {
+        width: 112px;
+      }
+
+      .goal-ring::before {
+        inset: 7px;
+      }
+
+      .week-card {
+        min-height: 248px;
+      }
+
+      .chart {
+        height: 130px;
+      }
+    }
+
+    @media (max-width: 390px) {
+      .burn-card {
+        padding: 22px 17px;
+      }
+
+      .goal-ring {
+        width: 90px;
+      }
+
+      .ring-copy strong {
+        font-size: 22px;
+      }
+
+      .panel,
+      .week-card {
+        padding-right: 17px;
+        padding-left: 17px;
+      }
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -74,17 +691,233 @@
   </style>
 </head>
 <body>
-  <main>
-    <h1>Hello World</h1>
-    <button id="color-button" type="button">Change background</button>
+  <header class="topbar">
+    <button class="menu-toggle" id="menu-toggle" type="button" aria-label="Open navigation menu" aria-controls="site-drawer" aria-expanded="false">
+      <span class="hamburger" aria-hidden="true"><span></span><span></span><span></span></span>
+    </button>
+    <a class="brand" href="#overview" aria-label="Stride home">
+      <span class="brand-mark" aria-hidden="true">S</span>
+      <span>STRIDE</span>
+    </a>
+    <span class="topbar-spacer"></span>
+    <time class="top-date" id="top-date"></time>
+    <span class="avatar" aria-label="Profile">EC</span>
+  </header>
+
+  <button class="drawer-backdrop" id="drawer-backdrop" type="button" aria-label="Close navigation menu" tabindex="-1"></button>
+  <aside class="drawer" id="site-drawer" aria-label="Main navigation" aria-hidden="true" inert>
+    <div class="drawer-head">
+      <a class="brand" href="#overview"><span class="brand-mark" aria-hidden="true">S</span><span>STRIDE</span></a>
+      <button class="icon-button" id="menu-close" type="button" aria-label="Close navigation menu">×</button>
+    </div>
+    <p class="drawer-label">Workspace</p>
+    <nav class="drawer-nav" aria-label="Workspace">
+      <a href="#overview" aria-current="page">Overview</a>
+      <a href="#activity-log">Activity log</a>
+      <a href="#weekly-activity">Weekly activity</a>
+      <a href="#add-activity">Add activity</a>
+    </nav>
+    <p class="drawer-label">Your movement, in focus</p>
+    <div class="drawer-footer">Small steps add up. Keep showing up for yourself.</div>
+  </aside>
+
+  <main id="overview">
+    <section class="page-heading" aria-labelledby="page-title">
+      <div>
+        <p class="eyebrow" id="today-label">YOUR DAILY MOVEMENT</p>
+        <h1 id="page-title">A little stronger, every day.</h1>
+      </div>
+      <p class="heading-note">Your activity at a glance</p>
+    </section>
+
+    <section class="overview-grid" aria-label="Daily and weekly activity overview">
+      <article class="burn-card" aria-labelledby="burn-heading">
+        <div class="burn-copy">
+          <p class="burn-label" id="burn-heading">Estimated calories burned</p>
+          <p class="burn-total"><span id="burn-total">684</span><span>kcal</span></p>
+          <p class="burn-caption">You're building a good rhythm.</p>
+          <div class="goal-track" role="progressbar" aria-label="Daily calorie goal progress" aria-valuemin="0" aria-valuemax="950" aria-valuenow="684">
+            <div class="goal-fill" id="goal-fill"></div>
+          </div>
+          <p class="goal-caption"><span id="goal-remaining">266</span> kcal to your 950 kcal daily goal</p>
+        </div>
+        <div class="goal-ring" id="goal-ring" aria-label="72 percent of daily goal">
+          <div class="ring-copy"><strong id="goal-percent">72%</strong><span>of goal</span></div>
+        </div>
+      </article>
+
+      <article class="week-card" id="weekly-activity" aria-labelledby="week-heading">
+        <div class="section-heading">
+          <div>
+            <h2 id="week-heading">This week</h2>
+            <p class="section-subtitle">Estimated calories burned</p>
+          </div>
+          <div class="week-total">3,248 <small>kcal</small></div>
+        </div>
+        <div class="chart" role="img" aria-label="Bar chart of weekly calories: Monday 430, Tuesday 610, Wednesday 505, Thursday 730, Friday 289, Saturday 684, Sunday 0">
+          <div class="chart-day"><span class="chart-bar" style="height: 51%"></span><span>Mon</span></div>
+          <div class="chart-day"><span class="chart-bar" style="height: 73%"></span><span>Tue</span></div>
+          <div class="chart-day"><span class="chart-bar" style="height: 61%"></span><span>Wed</span></div>
+          <div class="chart-day"><span class="chart-bar" style="height: 87%"></span><span>Thu</span></div>
+          <div class="chart-day"><span class="chart-bar" style="height: 35%"></span><span>Fri</span></div>
+          <div class="chart-day today"><span class="chart-bar" style="height: 72%"></span><span>Sat</span></div>
+          <div class="chart-day"><span class="chart-bar" style="height: 3%"></span><span>Sun</span></div>
+        </div>
+      </article>
+    </section>
+
+    <section class="content-grid" aria-label="Activity details">
+      <article class="panel" id="activity-log" aria-labelledby="activity-heading">
+        <div class="section-heading">
+          <div>
+            <h2 id="activity-heading">Today's activity</h2>
+            <p class="section-subtitle">A little effort goes a long way</p>
+          </div>
+        </div>
+        <ul class="activity-list" id="activity-list">
+          <li class="activity-item">
+            <span class="activity-mark" aria-hidden="true">RUN</span>
+            <div><p class="activity-name">Morning run</p><p class="activity-meta">34 min · 7:20 AM</p></div>
+            <span class="activity-calories">344 kcal</span>
+          </li>
+          <li class="activity-item">
+            <span class="activity-mark" aria-hidden="true">CYC</span>
+            <div><p class="activity-name">Bike ride</p><p class="activity-meta">42 min · 12:15 PM</p></div>
+            <span class="activity-calories">246 kcal</span>
+          </li>
+          <li class="activity-item">
+            <span class="activity-mark" aria-hidden="true">WLK</span>
+            <div><p class="activity-name">Afternoon walk</p><p class="activity-meta">28 min · 3:40 PM</p></div>
+            <span class="activity-calories">94 kcal</span>
+          </li>
+        </ul>
+      </article>
+
+      <article class="panel" id="add-activity" aria-labelledby="add-heading">
+        <div class="section-heading">
+          <div>
+            <h2 id="add-heading">Log an activity</h2>
+            <p class="section-subtitle">Add a movement session to today's total</p>
+          </div>
+        </div>
+        <form class="add-form" id="activity-form">
+          <label class="field">Activity
+            <select id="activity-type" name="activity" required>
+              <option value="Running" data-met="8">Running</option>
+              <option value="Cycling" data-met="7">Cycling</option>
+              <option value="Walking" data-met="3.5">Walking</option>
+              <option value="Swimming" data-met="6">Swimming</option>
+              <option value="Strength training" data-met="5">Strength training</option>
+            </select>
+          </label>
+          <div class="form-row">
+            <label class="field">Duration (minutes)
+              <input id="activity-duration" name="duration" type="number" min="1" max="600" placeholder="30" required>
+            </label>
+            <label class="field">Weight (kg)
+              <input id="body-weight" name="weight" type="number" min="25" max="300" value="70" required>
+            </label>
+          </div>
+          <button class="form-submit" type="submit">+ Add activity</button>
+          <p class="estimate-note">Calorie values are rough estimates based on activity type, duration, and weight.</p>
+        </form>
+      </article>
+    </section>
   </main>
 
   <script>
-    const colorButton = document.querySelector("#color-button");
+    const menuToggle = document.querySelector("#menu-toggle");
+    const menuClose = document.querySelector("#menu-close");
+    const drawer = document.querySelector("#site-drawer");
+    const backdrop = document.querySelector("#drawer-backdrop");
+    const drawerLinks = drawer.querySelectorAll(".drawer-nav a");
 
-    colorButton.addEventListener("click", () => {
-      const hue = Math.floor(Math.random() * 360);
-      document.body.style.backgroundColor = `hsl(${hue} 68% 82%)`;
+    function setMenuOpen(isOpen) {
+      document.body.classList.toggle("menu-open", isOpen);
+      menuToggle.setAttribute("aria-expanded", String(isOpen));
+      menuToggle.setAttribute("aria-label", isOpen ? "Close navigation menu" : "Open navigation menu");
+      drawer.setAttribute("aria-hidden", String(!isOpen));
+      drawer.toggleAttribute("inert", !isOpen);
+
+      if (isOpen) {
+        menuClose.focus();
+      } else {
+        menuToggle.focus();
+      }
+    }
+
+    menuToggle.addEventListener("click", () => {
+      setMenuOpen(menuToggle.getAttribute("aria-expanded") !== "true");
+    });
+    menuClose.addEventListener("click", () => setMenuOpen(false));
+    backdrop.addEventListener("click", () => setMenuOpen(false));
+    drawerLinks.forEach((link) => {
+      link.addEventListener("click", () => {
+        drawerLinks.forEach((item) => item.removeAttribute("aria-current"));
+        link.setAttribute("aria-current", "page");
+        setMenuOpen(false);
+      });
+    });
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && menuToggle.getAttribute("aria-expanded") === "true") {
+        setMenuOpen(false);
+      }
+    });
+
+    const date = new Date();
+    document.querySelector("#top-date").textContent = new Intl.DateTimeFormat("en", {
+      weekday: "short",
+      month: "short",
+      day: "numeric"
+    }).format(date);
+    document.querySelector("#today-label").textContent = new Intl.DateTimeFormat("en", {
+      weekday: "long",
+      month: "long",
+      day: "numeric"
+    }).format(date).toUpperCase();
+
+    const activityForm = document.querySelector("#activity-form");
+    const activityList = document.querySelector("#activity-list");
+    const burnTotal = document.querySelector("#burn-total");
+    const goalFill = document.querySelector("#goal-fill");
+    const goalRing = document.querySelector("#goal-ring");
+    const goalPercent = document.querySelector("#goal-percent");
+    const goalRemaining = document.querySelector("#goal-remaining");
+    const goalProgress = document.querySelector(".goal-track");
+    let totalCalories = 684;
+
+    activityForm.addEventListener("submit", (event) => {
+      event.preventDefault();
+      if (!activityForm.reportValidity()) return;
+
+      const selectedActivity = document.querySelector("#activity-type").selectedOptions[0];
+      const activityName = selectedActivity.value;
+      const met = Number(selectedActivity.dataset.met);
+      const duration = Number(document.querySelector("#activity-duration").value);
+      const weight = Number(document.querySelector("#body-weight").value);
+      const calories = Math.round((met * 3.5 * weight / 200) * duration);
+      const activityItem = document.createElement("li");
+      const activityInitials = activityName.split(/\s+/).map((word) => word[0]).join("").slice(0, 3).toUpperCase();
+
+      activityItem.className = "activity-item";
+      activityItem.innerHTML = `<span class="activity-mark" aria-hidden="true">${activityInitials}</span><div><p class="activity-name"></p><p class="activity-meta"></p></div><span class="activity-calories"></span>`;
+      activityItem.querySelector(".activity-name").textContent = activityName;
+      activityItem.querySelector(".activity-meta").textContent = `${duration} min · just now`;
+      activityItem.querySelector(".activity-calories").textContent = `${calories} kcal`;
+      activityList.prepend(activityItem);
+
+      totalCalories += calories;
+      burnTotal.textContent = totalCalories.toLocaleString("en");
+
+      const progress = Math.min(totalCalories / 950 * 100, 100);
+      goalFill.style.width = `${progress}%`;
+      goalRing.style.background = `conic-gradient(var(--lime) 0 ${progress}%, rgba(255, 255, 255, 0.17) ${progress}% 100%)`;
+      goalPercent.textContent = `${Math.round(progress)}%`;
+      goalRing.setAttribute("aria-label", `${Math.round(progress)} percent of daily goal`);
+      goalRemaining.textContent = Math.max(950 - totalCalories, 0).toLocaleString("en");
+      goalProgress.setAttribute("aria-valuenow", String(Math.min(totalCalories, 950)));
+      activityForm.reset();
+      document.querySelector("#body-weight").value = String(weight);
     });
   </script>
 </body>
