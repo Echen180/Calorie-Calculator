@@ -1456,12 +1456,21 @@
     <div class="profile-setup-panel">
       <p class="eyebrow">WELCOME TO STRIDE</p>
       <h1 id="profile-setup-heading">First, let’s set up your profile.</h1>
-      <p class="profile-setup-copy" id="profile-setup-copy">Enter your name to start using your activity and goal tracker.</p>
+      <p class="profile-setup-copy" id="profile-setup-copy">Enter your name and weight goal to start using your activity tracker.</p>
       <form class="profile-setup-form" id="profile-setup-form">
         <label class="field" for="profile-setup-name">Full name
           <input id="profile-setup-name" name="name" type="text" autocomplete="name" maxlength="100" placeholder="Enter your name" required>
         </label>
-        <button class="form-submit" type="submit">Save name and continue</button>
+        <label class="field" for="profile-setup-current-weight">Current weight (lb)
+          <input id="profile-setup-current-weight" name="currentWeight" type="number" min="1" max="1000" step="0.1" placeholder="180" required>
+        </label>
+        <label class="field" for="profile-setup-goal-weight">Goal weight (lb)
+          <input id="profile-setup-goal-weight" name="goalWeight" type="number" min="1" max="1000" step="0.1" placeholder="130" required>
+        </label>
+        <label class="field" for="profile-setup-target-date">Target date
+          <input id="profile-setup-target-date" name="targetDate" type="date" required>
+        </label>
+        <button class="form-submit" type="submit">Save profile and continue</button>
         <p class="profile-save-status" id="profile-setup-status" aria-live="polite"></p>
       </form>
     </div>
@@ -1480,6 +1489,9 @@
     const profileSetup = document.querySelector("#profile-setup");
     const profileSetupForm = document.querySelector("#profile-setup-form");
     const profileSetupNameInput = document.querySelector("#profile-setup-name");
+    const profileSetupCurrentWeightInput = document.querySelector("#profile-setup-current-weight");
+    const profileSetupGoalWeightInput = document.querySelector("#profile-setup-goal-weight");
+    const profileSetupTargetDateInput = document.querySelector("#profile-setup-target-date");
     const profileSetupStatus = document.querySelector("#profile-setup-status");
 
     function setWorkspaceView(view) {
@@ -1567,6 +1579,8 @@
       document.querySelector("#overview").inert = true;
       profileSetupNameInput.focus();
     }
+    const todayForSetup = new Date();
+    profileSetupTargetDateInput.min = `${todayForSetup.getFullYear()}-${String(todayForSetup.getMonth() + 1).padStart(2, "0")}-${String(todayForSetup.getDate()).padStart(2, "0")}`;
 
     if (savedProfileName) {
       profileNameInput.value = savedProfileName;
@@ -1576,18 +1590,39 @@
     profileSetupForm.addEventListener("submit", (event) => {
       event.preventDefault();
       profileSetupNameInput.setCustomValidity("");
+      profileSetupGoalWeightInput.setCustomValidity("");
       if (!profileSetupForm.reportValidity()) return;
 
       const name = profileSetupNameInput.value.trim();
+      const currentWeight = Number(profileSetupCurrentWeightInput.value);
+      const goalWeight = Number(profileSetupGoalWeightInput.value);
       if (!name) {
         profileSetupNameInput.setCustomValidity("Enter your name to start using the app.");
         profileSetupNameInput.reportValidity();
         return;
       }
+      if (currentWeight === goalWeight) {
+        profileSetupGoalWeightInput.setCustomValidity("Goal weight must be different from current weight.");
+        profileSetupGoalWeightInput.reportValidity();
+        return;
+      }
 
       localStorage.setItem("stride-profile-name", name);
+      longTermGoal = {
+        startingWeight: currentWeight,
+        currentWeight,
+        goalWeight,
+        targetDate: profileSetupTargetDateInput.value,
+        weightChanges: []
+      };
+      localStorage.setItem("stride-long-term-goal", JSON.stringify(longTermGoal));
       profileNameInput.value = name;
       updateProfileName(name);
+      longTermCurrentWeightInput.value = String(currentWeight);
+      longTermGoalWeightInput.value = String(goalWeight);
+      longTermDateInput.value = profileSetupTargetDateInput.value;
+      syncActivityWeight();
+      updateLongTermGoal();
       profileSetup.hidden = true;
       document.querySelector(".topbar").inert = false;
       drawer.inert = true;
