@@ -1,146 +1,456 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#f3f5f0">
-  <title>Stride | Activity</title>
-  <link rel="stylesheet" href="style.css">
-  <script src="script.js" defer></script>
-</head>
-<body>
-  <header class="topbar">
-    <button class="menu-toggle" id="menu-toggle" type="button" aria-label="Open navigation menu" aria-controls="site-drawer" aria-expanded="false">
-      <span class="hamburger" aria-hidden="true"><span></span><span></span><span></span></span>
-    </button>
-    <a class="brand" href="#overview" aria-label="Stride home">
-      <span class="brand-mark" aria-hidden="true">S</span>
-      <span>STRIDE</span>
-    </a>
-    <span class="topbar-spacer"></span>
-    <time class="top-date" id="top-date"></time>
-    <span class="avatar" aria-label="Profile">EC</span>
-  </header>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#f3f5f0" />
+    <title>Stride | Activity</title>
+    <link rel="stylesheet" href="style.css" />
+    <script src="script.js" defer></script>
+  </head>
+  <body>
+    <header class="topbar">
+      <button
+        class="menu-toggle"
+        id="menu-toggle"
+        type="button"
+        aria-label="Open navigation menu"
+        aria-controls="site-drawer"
+        aria-expanded="false"
+      >
+        <span class="hamburger" aria-hidden="true">
+          <span></span>
+          <span></span>
+          <span></span>
+        </span>
+      </button>
 
-  <button class="drawer-backdrop" id="drawer-backdrop" type="button" aria-label="Close navigation menu" tabindex="-1"></button>
-  <aside class="drawer" id="site-drawer" aria-label="Main navigation" aria-hidden="true" inert>
-    <div class="drawer-head">
-      <a class="brand" href="#overview"><span class="brand-mark" aria-hidden="true">S</span><span>STRIDE</span></a>
-      <button class="icon-button" id="menu-close" type="button" aria-label="Close navigation menu">×</button>
-    </div>
-    <p class="drawer-label">Workspace</p>
-    <nav class="drawer-nav" aria-label="Workspace">
-      <a href="#overview" aria-current="page">Overview</a>
-      <a href="#activity-log">Activity log</a>
-      <a href="#weekly-activity">Weekly activity</a>
-      <a href="#add-activity">Add activity</a>
-    </nav>
-    <p class="drawer-label">Your movement, in focus</p>
-    <div class="drawer-footer">Small steps add up. Keep showing up for yourself.</div>
-  </aside>
+      <a class="brand" href="#overview" aria-label="Stride home">
+        <span class="brand-mark" aria-hidden="true">S</span>
+        <span>STRIDE</span>
+      </a>
 
-  <main id="overview">
-    <section class="page-heading" aria-labelledby="page-title">
-      <div>
-        <p class="eyebrow" id="today-label">YOUR DAILY MOVEMENT</p>
-        <h1 id="page-title">A little stronger, every day.</h1>
+      <span class="topbar-spacer"></span>
+      <time class="top-date" id="top-date"></time>
+      <button class="avatar" id="profile-shortcut" type="button" aria-label="Open profile">?</button>
+    </header>
+
+    <button
+      class="drawer-backdrop"
+      id="drawer-backdrop"
+      type="button"
+      aria-label="Close navigation menu"
+      tabindex="-1"
+    ></button>
+
+    <aside class="drawer" id="site-drawer" aria-label="Main navigation" aria-hidden="true" inert>
+      <div class="drawer-head">
+        <a class="brand" href="#overview">
+          <span class="brand-mark" aria-hidden="true">S</span>
+          <span>STRIDE</span>
+        </a>
+        <button class="icon-button" id="menu-close" type="button" aria-label="Close navigation menu">×</button>
       </div>
-      <p class="heading-note">Your activity at a glance</p>
-    </section>
 
-    <section class="overview-grid" aria-label="Daily and weekly activity overview">
-      <article class="burn-card" aria-labelledby="burn-heading">
-        <div class="burn-copy">
-          <p class="burn-label" id="burn-heading">Estimated calories burned</p>
-          <p class="burn-total"><span id="burn-total">684</span><span>kcal</span></p>
-          <p class="burn-caption">You're building a good rhythm.</p>
-          <div class="goal-track" role="progressbar" aria-label="Daily calorie goal progress" aria-valuemin="0" aria-valuemax="950" aria-valuenow="684">
-            <div class="goal-fill" id="goal-fill"></div>
+      <p class="drawer-label">Workspace</p>
+      <nav class="drawer-nav" aria-label="Workspace">
+        <a href="#overview" aria-current="page">Overview</a>
+        <a href="#activity-log">Activity log</a>
+        <a href="#weekly-activity">Weekly activity</a>
+        <a href="#add-activity">Add activity</a>
+        <a href="#meals">Meals</a>
+        <a href="#long-term-goal">Long-term goal</a>
+        <a href="#profile">Profile</a>
+      </nav>
+
+      <p class="drawer-label">Your movement, in focus</p>
+      <div class="drawer-footer">Small steps add up. Keep showing up for yourself.</div>
+    </aside>
+
+    <main id="overview">
+      <section class="page-heading" aria-labelledby="page-title">
+        <div>
+          <p class="eyebrow" id="today-label">YOUR DAILY MOVEMENT</p>
+          <h1 id="page-title">A little stronger, every day.</h1>
+        </div>
+        <p class="heading-note">Your activity at a glance</p>
+      </section>
+
+      <section class="overview-grid" aria-label="Daily and weekly activity overview">
+        <article class="burn-card" aria-labelledby="burn-heading">
+          <div class="burn-copy">
+            <p class="burn-label" id="burn-heading">Estimated calories burned</p>
+            <p class="burn-total"><span id="burn-total">684</span><span>kcal</span></p>
+            <p class="burn-caption">You're building a good rhythm.</p>
+            <div
+              class="goal-track"
+              role="progressbar"
+              aria-label="Daily calorie goal progress"
+              aria-valuemin="0"
+              aria-valuemax="950"
+              aria-valuenow="684"
+            >
+              <div class="goal-fill" id="goal-fill"></div>
+            </div>
+            <p class="goal-caption">
+              <span id="goal-remaining">266</span>
+              <span id="goal-message">kcal to your</span>
+              <span id="goal-target">950</span> kcal daily goal
+            </p>
+            <form class="goal-form" id="goal-form">
+              <label class="goal-field">
+                Daily calorie goal
+                <input id="goal-input" name="goal" type="number" min="100" max="10000" step="50" value="950" required />
+              </label>
+              <button type="submit">Save goal</button>
+            </form>
           </div>
-          <p class="goal-caption"><span id="goal-remaining">266</span> kcal to your 950 kcal daily goal</p>
-        </div>
-        <div class="goal-ring" id="goal-ring" aria-label="72 percent of daily goal">
-          <div class="ring-copy"><strong id="goal-percent">72%</strong><span>of goal</span></div>
-        </div>
-      </article>
 
-      <article class="week-card" id="weekly-activity" aria-labelledby="week-heading">
-        <div class="section-heading">
+          <div class="goal-ring" id="goal-ring" aria-label="72 percent of daily goal">
+            <div class="ring-copy"><strong id="goal-percent">72%</strong><span>of goal</span></div>
+          </div>
+        </article>
+
+        <article class="week-card" id="weekly-activity" aria-labelledby="week-heading">
+          <div class="section-heading">
+            <div>
+              <h2 id="week-heading">This week</h2>
+              <p class="section-subtitle">Estimated calories burned</p>
+            </div>
+            <div class="week-total">3,248 <small>kcal</small></div>
+          </div>
+
+          <div class="chart" aria-label="Weekly calories by day">
+            <button class="chart-day" type="button" data-day="Monday" data-calories="430" aria-label="Monday: 430 calories" aria-pressed="false"><span class="chart-bar" style="height: 51%"></span><span>Mon</span></button>
+            <button class="chart-day" type="button" data-day="Tuesday" data-calories="610" aria-label="Tuesday: 610 calories" aria-pressed="false"><span class="chart-bar" style="height: 73%"></span><span>Tue</span></button>
+            <button class="chart-day" type="button" data-day="Wednesday" data-calories="505" aria-label="Wednesday: 505 calories" aria-pressed="false"><span class="chart-bar" style="height: 61%"></span><span>Wed</span></button>
+            <button class="chart-day" type="button" data-day="Thursday" data-calories="730" aria-label="Thursday: 730 calories" aria-pressed="false"><span class="chart-bar" style="height: 87%"></span><span>Thu</span></button>
+            <button class="chart-day" type="button" data-day="Friday" data-calories="289" aria-label="Friday: 289 calories" aria-pressed="false"><span class="chart-bar" style="height: 35%"></span><span>Fri</span></button>
+            <button class="chart-day today" type="button" data-day="Saturday" data-calories="684" aria-label="Saturday: 684 calories" aria-pressed="true"><span class="chart-bar" style="height: 72%"></span><span>Sat</span></button>
+            <button class="chart-day" type="button" data-day="Sunday" data-calories="0" aria-label="Sunday: 0 calories" aria-pressed="false"><span class="chart-bar" style="height: 3%"></span><span>Sun</span></button>
+          </div>
+
+          <p class="week-selection" id="week-selection" aria-live="polite"><strong>Saturday</strong> · 684 kcal</p>
+        </article>
+      </section>
+
+      <section class="long-term-view" id="long-term-goal" aria-labelledby="long-term-view-heading" hidden>
+        <div class="page-heading">
           <div>
-            <h2 id="week-heading">This week</h2>
-            <p class="section-subtitle">Estimated calories burned</p>
+            <p class="eyebrow">LONG-TERM GOAL</p>
+            <h1 id="long-term-view-heading">Long-term weight goal</h1>
           </div>
-          <div class="week-total">3,248 <small>kcal</small></div>
+          <p class="heading-note">Set a target and update your progress over time.</p>
         </div>
-        <div class="chart" role="img" aria-label="Bar chart of weekly calories: Monday 430, Tuesday 610, Wednesday 505, Thursday 730, Friday 289, Saturday 684, Sunday 0">
-          <div class="chart-day"><span class="chart-bar" style="height: 51%"></span><span>Mon</span></div>
-          <div class="chart-day"><span class="chart-bar" style="height: 73%"></span><span>Tue</span></div>
-          <div class="chart-day"><span class="chart-bar" style="height: 61%"></span><span>Wed</span></div>
-          <div class="chart-day"><span class="chart-bar" style="height: 87%"></span><span>Thu</span></div>
-          <div class="chart-day"><span class="chart-bar" style="height: 35%"></span><span>Fri</span></div>
-          <div class="chart-day today"><span class="chart-bar" style="height: 72%"></span><span>Sat</span></div>
-          <div class="chart-day"><span class="chart-bar" style="height: 3%"></span><span>Sun</span></div>
-        </div>
-      </article>
-    </section>
 
-    <section class="content-grid" aria-label="Activity details">
-      <article class="panel" id="activity-log" aria-labelledby="activity-heading">
-        <div class="section-heading">
-          <div>
-            <h2 id="activity-heading">Today's activity</h2>
-            <p class="section-subtitle">A little effort goes a long way</p>
+        <section class="panel long-term-panel" aria-labelledby="long-term-heading">
+          <div class="section-heading">
+            <div>
+              <h2 id="long-term-heading">Your target</h2>
+              <p class="section-subtitle">Set your current weight, goal weight, and target date</p>
+            </div>
           </div>
-        </div>
-        <ul class="activity-list" id="activity-list">
-          <li class="activity-item">
-            <span class="activity-mark" aria-hidden="true">RUN</span>
-            <div><p class="activity-name">Morning run</p><p class="activity-meta">34 min · 7:20 AM</p></div>
-            <span class="activity-calories">344 kcal</span>
-          </li>
-          <li class="activity-item">
-            <span class="activity-mark" aria-hidden="true">CYC</span>
-            <div><p class="activity-name">Bike ride</p><p class="activity-meta">42 min · 12:15 PM</p></div>
-            <span class="activity-calories">246 kcal</span>
-          </li>
-          <li class="activity-item">
-            <span class="activity-mark" aria-hidden="true">WLK</span>
-            <div><p class="activity-name">Afternoon walk</p><p class="activity-meta">28 min · 3:40 PM</p></div>
-            <span class="activity-calories">94 kcal</span>
-          </li>
-        </ul>
-      </article>
 
-      <article class="panel" id="add-activity" aria-labelledby="add-heading">
-        <div class="section-heading">
-          <div>
-            <h2 id="add-heading">Log an activity</h2>
-            <p class="section-subtitle">Add a movement session to today's total</p>
+          <form class="long-term-form" id="long-term-form">
+            <label class="field">
+              Current weight (lb)
+              <input id="long-term-current-weight" name="currentWeight" type="number" min="1" max="1000" step="0.1" placeholder="180" required />
+            </label>
+            <label class="field">
+              Goal weight (lb)
+              <input id="long-term-goal-weight" name="goalWeight" type="number" min="1" max="1000" step="0.1" placeholder="130" required />
+            </label>
+            <label class="field">
+              Target date
+              <input id="long-term-date" name="targetDate" type="date" required />
+            </label>
+            <button class="form-submit" type="submit">Save long-term goal</button>
+          </form>
+
+          <p class="long-term-empty" id="long-term-empty">No long-term goal set yet.</p>
+
+          <div class="long-term-summary" id="long-term-summary" hidden aria-live="polite">
+            <div class="long-term-summary-heading">
+              <p id="long-term-description"></p>
+              <strong id="long-term-percent">0%</strong>
+            </div>
+            <div
+              class="long-term-track"
+              id="long-term-track"
+              role="progressbar"
+              aria-label="Long-term weight goal progress"
+              aria-valuemin="0"
+              aria-valuemax="100"
+              aria-valuenow="0"
+            >
+              <div class="long-term-fill" id="long-term-fill"></div>
+            </div>
+            <p class="long-term-progress-label" id="long-term-progress-label"></p>
+            <p class="long-term-pace" id="long-term-pace"></p>
+            <p class="pace-warning" id="pace-warning" hidden></p>
           </div>
+
+          <section class="weight-log-section" id="weight-log-section" aria-labelledby="weight-log-heading" hidden>
+            <h3 class="weight-log-heading" id="weight-log-heading">Log a weight change</h3>
+            <p class="section-subtitle">Each entry updates your current weight and goal progress.</p>
+
+            <form class="weight-log-form" id="weight-log-form">
+              <label class="field">
+                Change
+                <select id="weight-change-direction" name="direction" required>
+                  <option value="lost">Lost</option>
+                  <option value="gained">Gained</option>
+                </select>
+              </label>
+              <label class="field">
+                Pounds
+                <input id="weight-change-amount" name="pounds" type="number" min="0.1" max="1000" step="0.1" placeholder="2" required />
+              </label>
+              <button class="form-submit" type="submit">+ Log change</button>
+            </form>
+
+            <h3 class="weight-log-heading">Weight history</h3>
+            <ul class="weight-log-list" id="weight-log-list" aria-live="polite"></ul>
+          </section>
+        </section>
+      </section>
+
+      <section class="profile-view" id="profile" aria-labelledby="profile-heading" hidden>
+        <div class="page-heading">
+          <div>
+            <p class="eyebrow">YOUR ACCOUNT</p>
+            <h1 id="profile-heading">Profile</h1>
+          </div>
+          <p class="heading-note">Your name is saved in this browser.</p>
         </div>
-        <form class="add-form" id="activity-form">
-          <label class="field">Activity
-            <select id="activity-type" name="activity" required>
-              <option value="Running" data-met="8">Running</option>
-              <option value="Cycling" data-met="7">Cycling</option>
-              <option value="Walking" data-met="3.5">Walking</option>
-              <option value="Swimming" data-met="6">Swimming</option>
-              <option value="Strength training" data-met="5">Strength training</option>
-            </select>
+
+        <section class="panel profile-panel" aria-labelledby="profile-name-heading">
+          <h2 id="profile-name-heading">Your name</h2>
+          <p class="section-subtitle">Add the name you want shown on your profile.</p>
+
+          <form class="profile-form" id="profile-form">
+            <label class="field" for="profile-name">
+              Full name
+              <input id="profile-name" name="name" type="text" autocomplete="name" maxlength="100" placeholder="Enter your name" required />
+            </label>
+            <button class="form-submit" type="submit">Save name</button>
+            <p class="profile-saved-name" id="profile-saved-name" hidden></p>
+            <p class="profile-save-status" id="profile-save-status" aria-live="polite"></p>
+          </form>
+        </section>
+      </section>
+
+      <section class="content-grid" aria-label="Activity details">
+        <article class="panel" id="activity-log" aria-labelledby="activity-heading">
+          <div class="section-heading">
+            <div>
+              <h2 id="activity-heading">Today's activity</h2>
+              <p class="section-subtitle">A little effort goes a long way</p>
+            </div>
+          </div>
+
+          <ul class="activity-list" id="activity-list" tabindex="-1">
+            <li class="activity-item" data-calories="344">
+              <span class="activity-mark" aria-hidden="true">RUN</span>
+              <div>
+                <p class="activity-name">Morning run</p>
+                <p class="activity-meta">34 min · 7:20 AM</p>
+              </div>
+              <span class="activity-calories">344 kcal</span>
+              <button class="activity-remove" type="button" aria-label="Remove Morning run">×</button>
+            </li>
+            <li class="activity-item" data-calories="246">
+              <span class="activity-mark" aria-hidden="true">CYC</span>
+              <div>
+                <p class="activity-name">Bike ride</p>
+                <p class="activity-meta">42 min · 12:15 PM</p>
+              </div>
+              <span class="activity-calories">246 kcal</span>
+              <button class="activity-remove" type="button" aria-label="Remove Bike ride">×</button>
+            </li>
+            <li class="activity-item" data-calories="94">
+              <span class="activity-mark" aria-hidden="true">WLK</span>
+              <div>
+                <p class="activity-name">Afternoon walk</p>
+                <p class="activity-meta">28 min · 3:40 PM</p>
+              </div>
+              <span class="activity-calories">94 kcal</span>
+              <button class="activity-remove" type="button" aria-label="Remove Afternoon walk">×</button>
+            </li>
+          </ul>
+        </article>
+
+        <article class="panel" id="add-activity" aria-labelledby="add-heading">
+          <div class="section-heading">
+            <div>
+              <h2 id="add-heading">Log an activity</h2>
+              <p class="section-subtitle">Add a movement session to today's total</p>
+            </div>
+          </div>
+
+          <form class="add-form" id="activity-form">
+            <label class="field">
+              Activity
+              <select id="activity-type" name="activity" required>
+                <option value="Running" data-met="8">Running</option>
+                <option value="Cycling" data-met="7">Cycling</option>
+                <option value="Walking" data-met="3.5">Walking</option>
+                <option value="Swimming" data-met="6">Swimming</option>
+                <option value="Strength training" data-met="5">Strength training</option>
+                <option value="Pickleball" data-met="4.5">Pickleball</option>
+                <option value="Volleyball" data-met="4">Volleyball</option>
+                <option value="Soccer" data-met="7">Soccer</option>
+                <option value="Basketball" data-met="6.5">Basketball</option>
+              </select>
+            </label>
+
+            <div class="form-row">
+              <label class="field">
+                Duration (minutes)
+                <input id="activity-duration" name="duration" type="number" min="1" max="600" placeholder="30" required />
+              </label>
+              <label class="field">
+                Weight (lb)
+                <input id="body-weight" name="weight" type="number" min="1" max="1000" step="0.1" value="154.3" required />
+              </label>
+            </div>
+
+            <button class="form-submit" type="submit">+ Add activity</button>
+            <p class="estimate-note">Calorie values are rough estimates based on activity type, duration, and weight.</p>
+          </form>
+        </article>
+      </section>
+
+      <section class="meal-view" id="meals" aria-labelledby="meals-heading" hidden>
+        <div class="page-heading">
+          <div>
+            <p class="eyebrow">FOOD &amp; NUTRITION</p>
+            <h1 id="meals-heading">Meals for your rhythm.</h1>
+          </div>
+          <p class="heading-note">Choose an idea, then adjust it to your recipe.</p>
+        </div>
+
+        <div class="meal-layout">
+          <section aria-labelledby="meal-ideas-heading">
+            <h2 id="meal-ideas-heading">Healthy meal ideas</h2>
+            <p class="section-subtitle">Estimates are per serving. Select a meal to start an entry.</p>
+
+            <div class="meal-categories" role="group" aria-label="Meal goal category">
+              <button class="meal-category" type="button" data-category="cutting" aria-pressed="true">Cutting</button>
+              <button class="meal-category" type="button" data-category="bulking" aria-pressed="false">Bulking</button>
+              <button class="meal-category" type="button" data-category="neutral" aria-pressed="false">Neutral</button>
+            </div>
+
+            <div class="meal-suggestions" id="meal-suggestions" aria-live="polite">
+              <button class="meal-suggestion" type="button" data-category="cutting" data-meal="Greek yogurt, berries &amp; oats" data-calories="380"><span class="suggestion-name">Greek yogurt, berries &amp; oats</span><span class="suggestion-calories">380 kcal / serving</span></button>
+              <button class="meal-suggestion" type="button" data-category="cutting" data-meal="Chicken quinoa vegetable bowl" data-calories="520"><span class="suggestion-name">Chicken quinoa vegetable bowl</span><span class="suggestion-calories">520 kcal / serving</span></button>
+              <button class="meal-suggestion" type="button" data-category="cutting" data-meal="Tofu, edamame &amp; vegetable stir-fry" data-calories="490"><span class="suggestion-name">Tofu, edamame &amp; vegetable stir-fry</span><span class="suggestion-calories">490 kcal / serving</span></button>
+              <button class="meal-suggestion" type="button" data-category="cutting" data-meal="Turkey lettuce tacos with black beans" data-calories="430"><span class="suggestion-name">Turkey lettuce tacos with black beans</span><span class="suggestion-calories">430 kcal / serving</span></button>
+              <button class="meal-suggestion" type="button" data-category="cutting" data-meal="Tuna chickpea cucumber salad" data-calories="410"><span class="suggestion-name">Tuna chickpea cucumber salad</span><span class="suggestion-calories">410 kcal / serving</span></button>
+              <button class="meal-suggestion" type="button" data-category="cutting" data-meal="Shrimp cauliflower rice bowl" data-calories="390"><span class="suggestion-name">Shrimp cauliflower rice bowl</span><span class="suggestion-calories">390 kcal / serving</span></button>
+              <button class="meal-suggestion" type="button" data-category="cutting" data-meal="Cottage cheese apple walnut bowl" data-calories="350"><span class="suggestion-name">Cottage cheese apple walnut bowl</span><span class="suggestion-calories">350 kcal / serving</span></button>
+              <button class="meal-suggestion" type="button" data-category="cutting" data-meal="Turkey chili with vegetables" data-calories="460"><span class="suggestion-name">Turkey chili with vegetables</span><span class="suggestion-calories">460 kcal / serving</span></button>
+              <button class="meal-suggestion" type="button" data-category="cutting" data-meal="Spinach mushroom egg scramble" data-calories="320"><span class="suggestion-name">Spinach mushroom egg scramble</span><span class="suggestion-calories">320 kcal / serving</span></button>
+              <button class="meal-suggestion" type="button" data-category="cutting" data-meal="Baked cod with sweet potato and green beans" data-calories="470"><span class="suggestion-name">Baked cod with sweet potato and green beans</span><span class="suggestion-calories">470 kcal / serving</span></button>
+              <button class="meal-suggestion" type="button" data-category="bulking" data-meal="Banana, oats &amp; peanut butter bowl" data-calories="650" hidden><span class="suggestion-name">Banana, oats &amp; peanut butter bowl</span><span class="suggestion-calories">650 kcal / serving</span></button>
+              <button class="meal-suggestion" type="button" data-category="bulking" data-meal="Chicken, rice &amp; avocado bowl" data-calories="760" hidden><span class="suggestion-name">Chicken, rice &amp; avocado bowl</span><span class="suggestion-calories">760 kcal / serving</span></button>
+              <button class="meal-suggestion" type="button" data-category="bulking" data-meal="Tofu noodles with edamame" data-calories="700" hidden><span class="suggestion-name">Tofu noodles with edamame</span><span class="suggestion-calories">700 kcal / serving</span></button>
+              <button class="meal-suggestion" type="button" data-category="bulking" data-meal="Beef and sweet potato power bowl" data-calories="820" hidden><span class="suggestion-name">Beef and sweet potato power bowl</span><span class="suggestion-calories">820 kcal / serving</span></button>
+              <button class="meal-suggestion" type="button" data-category="bulking" data-meal="Banana oat peanut butter smoothie" data-calories="720" hidden><span class="suggestion-name">Banana oat peanut butter smoothie</span><span class="suggestion-calories">720 kcal / serving</span></button>
+              <button class="meal-suggestion" type="button" data-category="bulking" data-meal="Turkey pesto whole-grain pasta" data-calories="780" hidden><span class="suggestion-name">Turkey pesto whole-grain pasta</span><span class="suggestion-calories">780 kcal / serving</span></button>
+              <button class="meal-suggestion" type="button" data-category="bulking" data-meal="Salmon rice and edamame bowl" data-calories="800" hidden><span class="suggestion-name">Salmon rice and edamame bowl</span><span class="suggestion-calories">800 kcal / serving</span></button>
+              <button class="meal-suggestion" type="button" data-category="bulking" data-meal="Cottage cheese pancakes with berries" data-calories="680" hidden><span class="suggestion-name">Cottage cheese pancakes with berries</span><span class="suggestion-calories">680 kcal / serving</span></button>
+              <button class="meal-suggestion" type="button" data-category="bulking" data-meal="Beef burrito bowl with beans and brown rice" data-calories="850" hidden><span class="suggestion-name">Beef burrito bowl with beans and brown rice</span><span class="suggestion-calories">850 kcal / serving</span></button>
+              <button class="meal-suggestion" type="button" data-category="bulking" data-meal="Tofu coconut curry with jasmine rice" data-calories="760" hidden><span class="suggestion-name">Tofu coconut curry with jasmine rice</span><span class="suggestion-calories">760 kcal / serving</span></button>
+              <button class="meal-suggestion" type="button" data-category="neutral" data-meal="Lentil soup with whole-grain bread" data-calories="430" hidden><span class="suggestion-name">Lentil soup with whole-grain bread</span><span class="suggestion-calories">430 kcal / serving</span></button>
+              <button class="meal-suggestion" type="button" data-category="neutral" data-meal="Egg &amp; avocado toast with fruit" data-calories="460" hidden><span class="suggestion-name">Egg &amp; avocado toast with fruit</span><span class="suggestion-calories">460 kcal / serving</span></button>
+              <button class="meal-suggestion" type="button" data-category="neutral" data-meal="Salmon, brown rice &amp; broccoli" data-calories="560" hidden><span class="suggestion-name">Salmon, brown rice &amp; broccoli</span><span class="suggestion-calories">560 kcal / serving</span></button>
+              <button class="meal-suggestion" type="button" data-category="neutral" data-meal="Chicken pesto whole-grain pasta" data-calories="580" hidden><span class="suggestion-name">Chicken pesto whole-grain pasta</span><span class="suggestion-calories">580 kcal / serving</span></button>
+              <button class="meal-suggestion" type="button" data-category="neutral" data-meal="Quinoa black bean and corn bowl" data-calories="510" hidden><span class="suggestion-name">Quinoa black bean and corn bowl</span><span class="suggestion-calories">510 kcal / serving</span></button>
+              <button class="meal-suggestion" type="button" data-category="neutral" data-meal="Turkey hummus vegetable wrap" data-calories="480" hidden><span class="suggestion-name">Turkey hummus vegetable wrap</span><span class="suggestion-calories">480 kcal / serving</span></button>
+              <button class="meal-suggestion" type="button" data-category="neutral" data-meal="Greek lentil feta salad" data-calories="490" hidden><span class="suggestion-name">Greek lentil feta salad</span><span class="suggestion-calories">490 kcal / serving</span></button>
+              <button class="meal-suggestion" type="button" data-category="neutral" data-meal="Tofu vegetable brown rice bowl" data-calories="530" hidden><span class="suggestion-name">Tofu vegetable brown rice bowl</span><span class="suggestion-calories">530 kcal / serving</span></button>
+              <button class="meal-suggestion" type="button" data-category="neutral" data-meal="Overnight oats with chia and banana" data-calories="440" hidden><span class="suggestion-name">Overnight oats with chia and banana</span><span class="suggestion-calories">440 kcal / serving</span></button>
+              <button class="meal-suggestion" type="button" data-category="neutral" data-meal="Chicken baked potato and side salad" data-calories="550" hidden><span class="suggestion-name">Chicken baked potato and side salad</span><span class="suggestion-calories">550 kcal / serving</span></button>
+            </div>
+          </section>
+
+          <section aria-labelledby="meal-entry-heading">
+            <h2 id="meal-entry-heading">Record a meal</h2>
+            <p class="section-subtitle">Enter the batch size and calories in each serving.</p>
+
+            <form class="meal-form" id="meal-form">
+              <label class="field">
+                Meal name
+                <input id="meal-name" name="meal" type="text" maxlength="100" placeholder="e.g. Lentil vegetable stew" required />
+              </label>
+              <label class="field">
+                Category
+                <select id="meal-category" name="category" required>
+                  <option value="cutting">Cutting</option>
+                  <option value="bulking">Bulking</option>
+                  <option value="neutral">Neutral</option>
+                </select>
+              </label>
+
+              <div class="form-row">
+                <label class="field">
+                  Servings made
+                  <input id="meal-servings" name="servings" type="number" min="0.5" max="500" step="0.5" placeholder="4" required />
+                </label>
+                <label class="field">
+                  Calories per serving
+                  <input id="meal-calories" name="calories" type="number" min="1" max="10000" step="1" placeholder="450" required />
+                </label>
+              </div>
+
+              <button class="form-submit" type="submit">+ Save meal</button>
+            </form>
+
+            <h2>Meals made</h2>
+            <ul class="meal-list" id="meal-list" aria-live="polite">
+              <li class="meal-empty" id="meal-empty">Your saved meals will appear here.</li>
+            </ul>
+          </section>
+        </div>
+      </section>
+    </main>
+
+    <section
+      class="profile-setup"
+      id="profile-setup"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="profile-setup-heading"
+      aria-describedby="profile-setup-copy"
+      hidden
+    >
+      <div class="profile-setup-panel">
+        <p class="eyebrow">WELCOME TO STRIDE</p>
+        <h1 id="profile-setup-heading">First, let’s set up your profile.</h1>
+        <p class="profile-setup-copy" id="profile-setup-copy">Enter your name and weight goal to start using your activity tracker.</p>
+
+        <form class="profile-setup-form" id="profile-setup-form">
+          <label class="field" for="profile-setup-name">
+            Full name
+            <input id="profile-setup-name" name="name" type="text" autocomplete="name" maxlength="100" placeholder="Enter your name" required />
           </label>
-          <div class="form-row">
-            <label class="field">Duration (minutes)
-              <input id="activity-duration" name="duration" type="number" min="1" max="600" placeholder="0" required>
-            </label>
-            <label class="field">Weight (kg)
-              <input id="body-weight" name="weight" type="number" min="25" max="300" value="0" required>
-            </label>
-          </div>
-          <button class="form-submit" type="submit">+ Add activity</button>
-          <p class="estimate-note">Calorie values are rough estimates based on activity type, duration, and weight.</p>
+          <label class="field" for="profile-setup-current-weight">
+            Current weight (lb)
+            <input id="profile-setup-current-weight" name="currentWeight" type="number" min="1" max="1000" step="0.1" placeholder="180" required />
+          </label>
+          <label class="field" for="profile-setup-goal-weight">
+            Goal weight (lb)
+            <input id="profile-setup-goal-weight" name="goalWeight" type="number" min="1" max="1000" step="0.1" placeholder="130" required />
+          </label>
+          <label class="field" for="profile-setup-target-date">
+            Target date
+            <input id="profile-setup-target-date" name="targetDate" type="date" required />
+          </label>
+          <button class="form-submit" type="submit">Save profile and continue</button>
+          <p class="profile-save-status" id="profile-setup-status" aria-live="polite"></p>
         </form>
-      </article>
+      </div>
     </section>
-  </main>
-</body>
+  </body>
 </html>
